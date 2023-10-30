@@ -22,3 +22,9 @@ a:hover, a:visited {
 button {
   margin-left: auto;
 }
+
+@media screen and (max-width: 600px) {
+  .refresh-btn {
+    display: none;
+  }
+}

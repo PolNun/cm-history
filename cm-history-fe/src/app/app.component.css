@@ -42,10 +42,6 @@ mat-form-field {
     margin: 1em 0;
   }
 
-  .refresh-btn {
-    display: none;
-  }
-
   mat-toolbar {
     position: fixed;
     top: 0;
@@ -54,11 +50,9 @@ mat-form-field {
     z-index: 1;
   }
 
-  mat-form-field {
-    margin-top: 60px;
-  }
 
   .fab-refresh-btn {
+    display: block;
     position: fixed;
     bottom: 1em;
     right: 1em;
