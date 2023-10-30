@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {GitHubCommit} from "../../interfaces/commit.interface";
 
 @Component({
@@ -7,13 +7,7 @@ import {GitHubCommit} from "../../interfaces/commit.interface";
   styleUrls: ['./commit-card.component.css']
 })
 export class CommitCardComponent {
-  fakeCommit: GitHubCommit = {
-    "url": "https://github.com/PolNun/git-cm-history/commit/e87caa99aa8acb765b2d758a1f135bd47a74398b",
-    "authorName": "Pablo Nunez",
-    "authorEmail": "polnunez@outlook.com",
-    "date": "2023-10-29T03:41:43Z",
-    "message": "Creando servicio para obtener commits"
-  };
+  @Input() commit!: GitHubCommit;
 
   viewCommit(url: string) {
     window.open(url, '_blank');

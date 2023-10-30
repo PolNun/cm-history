@@ -2,4 +2,15 @@
   <span>Visualizando commits</span>
 </mat-toolbar>
 
-<app-commit-card></app-commit-card>
+<mat-form-field appearance="fill">
+  <mat-label>Rama</mat-label>
+  <mat-select [(value)]="selectedBranch" (selectionChange)="onBranchChange($event.value)">
+    <mat-option *ngFor="let branch of branches" [value]="branch">{{branch}}</mat-option>
+  </mat-select>
+</mat-form-field>
+
+<div *ngFor="let commit of commits;">
+  <app-commit-card [commit]="commit"></app-commit-card>
+</div>
+
+<app-spinner *ngIf="isLoading"></app-spinner>
