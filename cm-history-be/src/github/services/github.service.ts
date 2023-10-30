@@ -2,8 +2,9 @@ import {HttpException, HttpStatus, Injectable} from '@nestjs/common';
 import {ConfigService} from "@nestjs/config";
 import {HttpService} from "@nestjs/axios";
 import {catchError, firstValueFrom, map} from "rxjs";
-import {GitHubCommit} from "../interfaces/github-commit.interface";
-import {SimplifiedCommit} from "../interfaces/simplified-commit.interface";
+import {GitHubCommit, SimplifiedCommit} from "../interfaces/github-commit.interface";
+import {CommitDetail} from "../interfaces/commit-detail.interface";
+import {OwnerDetail, SimplifiedOwner} from "../interfaces/owner-detail.interface";
 
 @Injectable()
 export class GithubService {
@@ -63,7 +64,48 @@ export class GithubService {
         return firstValueFrom(response$);
     }
 
-    mapToSimpleCommit(gitHubCommit: GitHubCommit): SimplifiedCommit {
+    async getCommitDetails(owner: string, repo: string, sha: string): Promise<CommitDetail> {
+        const url = `${this.getApiUrl()}/repos/${owner}/${repo}/commits/${sha}`;
+        const response$ = this.httpService.get<CommitDetail>(url).pipe(
+            map(response => response.data),
+            catchError(error => {
+                if (error.response && error.response.status === HttpStatus.NOT_FOUND) {
+                    throw new HttpException('Commit not found', HttpStatus.NOT_FOUND);
+                } else {
+                    throw new HttpException('Error fetching commit details', HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+            }),
+        );
+
+        return firstValueFrom(response$);
+    }
+
+    async getOwnerDetails(owner: string): Promise<SimplifiedOwner> {
+        const url = `${this.getApiUrl()}/users/${owner}`;
+        const response$ = this.httpService.get<OwnerDetail>(url).pipe(
+            map(response => this.mapToSimpleOwner(response.data)),
+            catchError(error => {
+                if (error.response && error.response.status === HttpStatus.NOT_FOUND) {
+                    throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+                } else {
+                    throw new HttpException('Error fetching user details', HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+            }),
+        );
+
+        return firstValueFrom(response$);
+    }
+
+    private mapToSimpleOwner(gitHubOwner: OwnerDetail): SimplifiedOwner {
+        return {
+            url: gitHubOwner.html_url,
+            avatarUrl: gitHubOwner.avatar_url,
+            name: gitHubOwner.name
+        };
+    }
+
+
+    private mapToSimpleCommit(gitHubCommit: GitHubCommit): SimplifiedCommit {
         return {
             url: gitHubCommit.html_url,
             authorName: gitHubCommit.commit.author.name,

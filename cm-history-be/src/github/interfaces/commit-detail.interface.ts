@@ -1,16 +1,18 @@
-export interface GitHubCommit {
+export interface CommitDetail {
     sha: string;
     node_id: string;
     commit: Commit;
     url: string;
     html_url: string;
     comments_url: string;
-    author: GitHubCommitAuthor;
-    committer: GitHubCommitAuthor;
+    author: CommitDetailAuthor;
+    committer: CommitDetailAuthor;
     parents: Parent[];
+    stats: Stats;
+    files: File[];
 }
 
-export interface GitHubCommitAuthor {
+export interface CommitDetailAuthor {
     login: string;
     id: number;
     node_id: string;
@@ -44,7 +46,7 @@ export interface Commit {
 export interface CommitAuthor {
     name: string;
     email: string;
-    date: string;
+    date: Date;
 }
 
 export interface Tree {
@@ -59,16 +61,27 @@ export interface Verification {
     payload: null;
 }
 
+export interface File {
+    sha: string;
+    filename: string;
+    status: string;
+    additions: number;
+    deletions: number;
+    changes: number;
+    blob_url: string;
+    raw_url: string;
+    contents_url: string;
+    patch: string;
+}
+
 export interface Parent {
     sha: string;
     url: string;
     html_url: string;
 }
 
-export interface SimplifiedCommit {
-    url: string;
-    authorName: string;
-    authorEmail: string;
-    date: string;
-    message: string;
+export interface Stats {
+    total: number;
+    additions: number;
+    deletions: number;
 }
