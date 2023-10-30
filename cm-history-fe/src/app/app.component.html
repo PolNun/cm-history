@@ -1,5 +1,6 @@
-<app-toolbar [owner]="owner" (refresh)="onRefreshClick()"></app-toolbar>
-
+<div *ngIf="owner" class="toolbar-container">
+  <app-toolbar [owner]="owner" (refresh)="onRefreshClick()"></app-toolbar>
+</div>
 <mat-form-field appearance="fill">
   <mat-label>Rama</mat-label>
   <mat-select [(value)]="selectedBranch" (selectionChange)="onBranchChange($event.value)">
@@ -27,3 +28,5 @@
 <button mat-fab color="accent" class="fab-refresh-btn">
   <mat-icon>refresh</mat-icon>
 </button>
+
+<mat-divider></mat-divider>

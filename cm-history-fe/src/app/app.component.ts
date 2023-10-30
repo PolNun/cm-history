@@ -32,6 +32,7 @@ export class AppComponent implements OnInit {
     this.commitsService.getOwnerDetails(this.ownerName)
       .subscribe({
         next: (owner) => {
+          this.isLoading = false;
           this.owner = owner;
         },
         error: (err) => {
