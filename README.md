@@ -45,6 +45,7 @@ GitHub API token, you can create one in your GitHub account settings.
 
 ## Usage
 
-This is a relatively simple application, so just open your browser and navigate to `http://localhost:4200/`.
+This is a relatively simple application, that’s why I didn’t deploy it to a server. You can access the application by
+going to http://localhost:4200/ in your browser.
 
 That’s it! You should now be able to see the commit history of this repository.
