@@ -20,7 +20,11 @@ export class GithubService {
     }
 
     async fetchFromGithub<T>(url: string): Promise<T> {
-        const response$ = this.httpService.get<T>(url).pipe(
+        const response$ = this.httpService.get<T>(url, {
+            headers: {
+                Authorization: `Bearer ${this.configService.get<string>('GITHUB_TOKEN')}`
+            }
+        }).pipe(
             map(response => response.data),
             catchError(error => {
                 if (error.response && error.response.status === HttpStatus.NOT_FOUND) {
