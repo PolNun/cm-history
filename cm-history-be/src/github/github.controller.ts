@@ -12,15 +12,20 @@ export class GithubController {
     @Get(':owner/:repo')
     getCommitHistory(@Param('owner') owner: string,
                      @Param('repo') repo: string,
-                     @Query('sha') branch: string): Promise<SimplifiedCommit[]> {
-        return this.githubService.getCommitsByBranch(owner, repo, branch);
+                     @Query('sha') branch: string,
+                     @Query('page') page: number,
+                     @Query('per_page') per_page: number): Promise<SimplifiedCommit[]> {
+        return this.githubService.getCommitsByBranch(owner, repo, branch, page, per_page);
     }
 
     @Get(':owner/:repo/branches')
     getRepoBranches(@Param('owner') owner: string,
-                    @Param('repo') repo: string): Promise<string[]> {
-        return this.githubService.getRepoBranches(owner, repo);
+                    @Param('repo') repo: string,
+                    @Query('page') page: number,
+                    @Query('per_page') per_page: number): Promise<string[]> {
+        return this.githubService.getRepoBranches(owner, repo, page, per_page);
     }
+
 
     @Get(':owner/:repo/commit/:sha')
     getCommitDetails(@Param('owner') owner: string, @Param('repo') repo: string, @Param('sha') sha: string): Promise<CommitDetail> {
