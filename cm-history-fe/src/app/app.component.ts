@@ -78,6 +78,7 @@ export class AppComponent implements OnInit {
 
   onRefreshClick() {
     this.isLoading = true;
+    this.loadBranches(this.owner, this.repo);
     this.loadCommits(this.owner, this.repo, this.selectedBranch, this.page, this.per_page);
   }
 

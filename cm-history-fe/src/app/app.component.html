@@ -19,7 +19,7 @@
 </div>
 
 
-<div class="load-more">
+<div class="load-more" *ngIf="!isLoading">
   <button mat-raised-button color="accent" (click)="onLoadMoreClick()">
     <mat-icon>add</mat-icon>
     <span>Cargar más</span>
