@@ -38,7 +38,7 @@ Follow these steps to install and run the project:
 2. In the backend directory, run the backend by executing the following command: **npm run** `start:dev`
 3. In the frontend directory, run the frontend by executing the following command: **npm run** `start`
 
-Please replace <your-github-api-token> and <port-number> with your actual GitHub API token and desired port
+Please replace _your-github-api-token_ and _port-number_ with your actual GitHub API token and desired port
 number.
 Remember to keep your GitHub API token secret to prevent unauthorized access to your GitHub account. If you don’t have a
 GitHub API token, you can create one in your GitHub account settings.
