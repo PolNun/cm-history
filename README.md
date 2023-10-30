@@ -30,7 +30,7 @@ Follow these steps to install and run the project:
 
 1. Create a .env file at the root level of the backend directory and add the following environment variables:
     - `GITHUB_API_URL=https://api.github.com`
-    - `GITHUB_TOKEN=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`: This is a Personal Access Token with the repo scope.
+    - `GITHUB_TOKEN=<github token>`: This is a Personal Access Token with the repo scope.
     - `PORT=<port-number>`: This is the port where the backend will run. The default is 3001.
 
 2. In the backend directory, run the backend by executing the following command: **npm run** `start:dev`
@@ -38,8 +38,6 @@ Follow these steps to install and run the project:
 
 Please replace _your-github-api-token_ and _port-number_ with your actual GitHub API token and desired port
 number.
-Remember to keep your GitHub API token secret to prevent unauthorized access to your GitHub account. If you don’t have a
-GitHub API token, you can create one in your GitHub account settings.
 
 ## Usage
 
