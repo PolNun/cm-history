@@ -14,6 +14,8 @@ export class AppComponent implements OnInit, AfterViewInit {
   commits!: GitHubCommit[];
   branches!: string[];
   selectedBranch!: string;
+  private owner: string = 'polnun';
+  private repo: string = 'cm-history';
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(private commitsService: CommitsService) {
@@ -21,8 +23,8 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.isLoading = true;
-    this.loadBranches('polnun', 'cm-history');
-    this.commitsService.getCommitHistory('polnun', 'cm-history', 'main')
+    this.loadBranches(this.owner, this.repo);
+    this.commitsService.getCommitHistory(this.owner, this.repo, 'main')
       .subscribe({
         next: (gitHubCommits) => {
           this.isLoading = false;
@@ -88,5 +90,9 @@ export class AppComponent implements OnInit, AfterViewInit {
   onRefreshClick() {
     this.isLoading = true;
     this.loadCommits();
+  }
+
+  onScroll() {
+
   }
 }
