@@ -1,37 +1,37 @@
-<h2 mat-dialog-title>Commit Details</h2>
+<h2 mat-dialog-title>Detalles del commit</h2>
 <mat-dialog-content>
   <div class="commit-info">
-    <h3>Commit Information</h3>
+    <h3>Información del commit</h3>
     <p><strong>SHA:</strong> {{data.sha}}</p>
     <p><strong>URL:</strong> <a href="{{data.url}}">{{data.url}}</a></p>
-    <p><strong>Message:</strong> {{data.commit.message}}</p>
+    <p><strong>Mensaje:</strong> {{data.commit.message}}</p>
   </div>
-
+  <mat-divider></mat-divider>
   <div class="author-info">
-    <h3>Author Information</h3>
-    <p><strong>Name:</strong> {{data.commit.author.name}}</p>
+    <h3>Información del autor</h3>
+    <p><strong>Nombre:</strong> {{data.commit.author.name}}</p>
     <p><strong>Email:</strong> {{data.commit.author.email}}</p>
-    <p><strong>Date:</strong> {{data.commit.author.date | date}}</p>
+    <p><strong>Fecha:</strong> {{data.commit.author.date | date}}</p>
   </div>
-
+  <mat-divider></mat-divider>
   <div class="committer-info" *ngIf="data.committer">
-    <h3>Committer Information</h3>
-    <p><strong>Name:</strong> {{data.committer.login}}</p>
+    <h3>Información del committer</h3>
+    <p><strong>Nombre:</strong> {{data.committer.login}}</p>
     <p><strong>ID:</strong> {{data.committer.id}}</p>
-    <p><strong>Type:</strong> {{data.committer.type}}</p>
+    <p><strong>Tipo:</strong> {{data.committer.type}}</p>
   </div>
-
+  <mat-divider></mat-divider>
   <div>
-    <h3>File Information</h3>
+    <h3>Información de los archivos</h3>
     <div class="file-info" *ngFor="let file of data.files">
       <hr>
-      <p><strong>Filename:</strong> {{file.filename}}</p>
-      <p><strong>Status:</strong> {{file.status}}</p>
+      <p><strong>Nombre:</strong> {{file.filename}}</p>
+      <p><strong>Estado:</strong> {{file.status}}</p>
     </div>
   </div>
 
 </mat-dialog-content>
 
 <mat-dialog-actions align="start">
-  <button mat-button mat-dialog-close color="warn">Close</button>
+  <button mat-button mat-dialog-close color="warn">{{'cerrar' | uppercase}}</button>
 </mat-dialog-actions>

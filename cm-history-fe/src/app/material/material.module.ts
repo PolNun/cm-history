@@ -11,6 +11,7 @@ import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatIconModule} from "@angular/material/icon";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatDialogModule} from "@angular/material/dialog";
+import {MatDividerModule} from "@angular/material/divider";
 
 
 @NgModule({
@@ -28,6 +29,7 @@ import {MatDialogModule} from "@angular/material/dialog";
     MatIconModule,
     MatPaginatorModule,
     MatDialogModule,
+    MatDividerModule,
   ],
   exports: [
     MatProgressSpinnerModule,
@@ -41,6 +43,7 @@ import {MatDialogModule} from "@angular/material/dialog";
     MatIconModule,
     MatPaginatorModule,
     MatDialogModule,
+    MatDividerModule,
   ]
 })
 export class MaterialModule {
