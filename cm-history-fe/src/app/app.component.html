@@ -18,11 +18,15 @@
   <app-commit-card [commit]="commit" (viewDetails)="openDialog(commit.sha)"></app-commit-card>
 </div>
 
-<div class="load-more" *ngIf="!isLoading">
+<div class="load-more" *ngIf="!isLoading && hasMoreCommits">
   <button mat-raised-button color="accent" (click)="onLoadMoreClick()">
     <mat-icon>add</mat-icon>
     <span>Cargar más</span>
   </button>
+</div>
+
+<div *ngIf="!isLoading && !hasMoreCommits" class="no-more-commits">
+  <span>No hay más commits para esta rama</span>
 </div>
 
 <app-spinner *ngIf="isLoading"></app-spinner>

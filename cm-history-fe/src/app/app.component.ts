@@ -10,6 +10,7 @@ import {CommitDetailsDialogComponent} from "./github/components/commit-details-d
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
+  hasMoreCommits: boolean = true;
   isLoading = false;
   commits!: GitHubCommit[];
   branches!: string[];
@@ -19,23 +20,13 @@ export class AppComponent implements OnInit {
   private owner: string = 'polnun';
   private repo: string = 'cm-history';
 
-  constructor(private commitsService: CommitsService,
-              public dialog: MatDialog) {
+  constructor(private commitsService: CommitsService, public dialog: MatDialog) {
   }
 
   ngOnInit(): void {
     this.isLoading = true;
     this.loadBranches(this.owner, this.repo);
-    this.commitsService.getCommitHistory(this.owner, this.repo, 'main', this.page, this.per_page)
-      .subscribe({
-        next: (gitHubCommits) => {
-          this.isLoading = false;
-          this.commits = gitHubCommits;
-        },
-        error: (err) => {
-          console.log(err);
-        }
-      });
+    this.loadCommits(this.owner, this.repo, 'main', this.page, this.per_page);
   }
 
   loadCommits(owner: string, repo: string, branch: string, page: number, per_page: number): void {
@@ -57,26 +48,16 @@ export class AppComponent implements OnInit {
         this.branches = branches;
         if (branches.includes('main')) {
           this.selectedBranch = 'main';
-          this.onBranchChange(this.selectedBranch);
         } else {
           this.selectedBranch = branches[0];
-          this.onBranchChange(this.selectedBranch);
         }
+        this.onBranchChange(this.selectedBranch);
       });
   }
 
   onBranchChange(branch: string): void {
     this.isLoading = true;
-    this.commitsService.getCommitHistory('polnun', 'cm-history', branch, this.page, this.per_page)
-      .subscribe({
-        next: (gitHubCommits) => {
-          this.isLoading = false;
-          this.commits = gitHubCommits;
-        },
-        error: (err) => {
-          console.log(err);
-        }
-      });
+    this.loadCommits(this.owner, this.repo, branch, this.page, this.per_page);
   }
 
   onRefreshClick() {
@@ -88,13 +69,16 @@ export class AppComponent implements OnInit {
   onLoadMoreClick() {
     const scrollY = window.scrollY;
     this.isLoading = true;
-    this.commitsService.getCommitHistory(this.owner, this.repo, this.selectedBranch, this.page + 1, this.per_page)
+    this.commitsService.getCommitHistory(this.owner, this.repo, this.selectedBranch, ++this.page, this.per_page)
       .subscribe({
         next: (gitHubCommits) => {
+          if (gitHubCommits.length === 0) {
+            this.hasMoreCommits = false;
+          } else {
+            window.scrollTo(0, scrollY);
+            this.commits.push(...gitHubCommits);
+          }
           this.isLoading = false;
-          this.commits = [...this.commits, ...gitHubCommits];
-          this.page++;
-          window.scrollTo(0, scrollY);
         },
         error: (err) => {
           console.log(err);
@@ -105,9 +89,8 @@ export class AppComponent implements OnInit {
   openDialog(commitSha: string) {
     this.commitsService.getCommitDetails(this.owner, this.repo, commitSha)
       .subscribe(commitDetail => {
-        this.dialog.open(CommitDetailsDialogComponent, {
-          data: commitDetail,
-        });
+        const dialogRef = this.dialog.open(CommitDetailsDialogComponent,
+          {data: commitDetail});
       });
   }
 }

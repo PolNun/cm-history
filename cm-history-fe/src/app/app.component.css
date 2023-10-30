@@ -22,6 +22,11 @@ mat-form-field {
   justify-content: center;
 }
 
+.no-more-commits {
+  font-size: 1.5em;
+  text-align: center;
+}
+
 @media screen and (max-width: 600px) {
   .spacer {
     display: none;
