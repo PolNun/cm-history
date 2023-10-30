@@ -1,0 +1,12 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>{{fakeCommit.authorName}}</mat-card-title>
+    <mat-card-subtitle>{{fakeCommit.date | date}}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <p>{{fakeCommit.message}}</p>
+  </mat-card-content>
+  <mat-card-actions align="end">
+    <button mat-button color="primary" (click)="viewCommit(fakeCommit.url)">View on GitHub</button>
+  </mat-card-actions>
+</mat-card>
