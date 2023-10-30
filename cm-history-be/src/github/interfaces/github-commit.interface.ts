@@ -66,6 +66,7 @@ export interface Parent {
 }
 
 export interface SimplifiedCommit {
+    sha: string;
     url: string;
     authorName: string;
     authorEmail: string;

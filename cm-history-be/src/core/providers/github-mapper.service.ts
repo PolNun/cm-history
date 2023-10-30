@@ -14,6 +14,7 @@ export class GithubMapper {
 
     mapToSimpleCommit(gitHubCommit: GitHubCommit): SimplifiedCommit {
         return {
+            sha: gitHubCommit.sha,
             url: gitHubCommit.html_url,
             authorName: gitHubCommit.commit.author.name,
             authorEmail: gitHubCommit.commit.author.email,
