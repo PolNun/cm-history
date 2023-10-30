@@ -1,5 +1,10 @@
 <mat-toolbar color="primary">
   <span>Visualizando commits</span>
+  <span class="spacer"></span>
+  <button mat-raised-button color="accent" (click)="onRefreshClick()">
+    <mat-icon>refresh</mat-icon>
+    <span>Refrescar</span>
+  </button>
 </mat-toolbar>
 
 <mat-form-field appearance="fill">

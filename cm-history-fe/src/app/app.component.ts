@@ -84,4 +84,9 @@ export class AppComponent implements OnInit, AfterViewInit {
         }
       });
   }
+
+  onRefreshClick() {
+    this.isLoading = true;
+    this.loadCommits();
+  }
 }
