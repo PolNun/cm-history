@@ -10,6 +10,7 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatIconModule} from "@angular/material/icon";
 import {MatPaginatorModule} from "@angular/material/paginator";
+import {MatDialogModule} from "@angular/material/dialog";
 
 
 @NgModule({
@@ -26,6 +27,7 @@ import {MatPaginatorModule} from "@angular/material/paginator";
     MatToolbarModule,
     MatIconModule,
     MatPaginatorModule,
+    MatDialogModule,
   ],
   exports: [
     MatProgressSpinnerModule,
@@ -38,6 +40,7 @@ import {MatPaginatorModule} from "@angular/material/paginator";
     MatToolbarModule,
     MatIconModule,
     MatPaginatorModule,
+    MatDialogModule,
   ]
 })
 export class MaterialModule {

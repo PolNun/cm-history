@@ -15,9 +15,8 @@
 </mat-form-field>
 
 <div class="commits-container" *ngFor="let commit of commits;">
-  <app-commit-card [commit]="commit"></app-commit-card>
+  <app-commit-card [commit]="commit" (viewDetails)="openDialog(commit.sha)"></app-commit-card>
 </div>
-
 
 <div class="load-more" *ngIf="!isLoading">
   <button mat-raised-button color="accent" (click)="onLoadMoreClick()">

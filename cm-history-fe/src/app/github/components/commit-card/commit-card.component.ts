@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {GitHubCommit} from "../../interfaces/commit.interface";
 
 @Component({
@@ -8,8 +8,13 @@ import {GitHubCommit} from "../../interfaces/commit.interface";
 })
 export class CommitCardComponent {
   @Input() commit!: GitHubCommit;
+  @Output() viewDetails = new EventEmitter<void>();
 
   viewCommit(url: string) {
     window.open(url, '_blank');
+  }
+
+  onViewDetailsClick() {
+    this.viewDetails.emit();
   }
 }

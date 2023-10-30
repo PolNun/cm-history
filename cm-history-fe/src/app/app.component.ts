@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {CommitsService} from "./github/services/commits.service";
 import {GitHubCommit} from "./github/interfaces/commit.interface";
+import {MatDialog} from "@angular/material/dialog";
+import {CommitDetailsDialogComponent} from "./github/components/commit-details-dialog/commit-details-dialog.component";
 
 @Component({
   selector: 'app-root',
@@ -17,7 +19,8 @@ export class AppComponent implements OnInit {
   private owner: string = 'polnun';
   private repo: string = 'cm-history';
 
-  constructor(private commitsService: CommitsService) {
+  constructor(private commitsService: CommitsService,
+              public dialog: MatDialog) {
   }
 
   ngOnInit(): void {
@@ -99,4 +102,12 @@ export class AppComponent implements OnInit {
       });
   }
 
+  openDialog(commitSha: string) {
+    this.commitsService.getCommitDetails(this.owner, this.repo, commitSha)
+      .subscribe(commitDetail => {
+        this.dialog.open(CommitDetailsDialogComponent, {
+          data: commitDetail,
+        });
+      });
+  }
 }
