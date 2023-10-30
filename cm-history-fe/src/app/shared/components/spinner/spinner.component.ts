@@ -9,7 +9,10 @@ import {Component} from '@angular/core';
       diameter="50"
       strokeWidth="5">
     </mat-progress-spinner>`,
-  styles: []
+  styles: [`
+    mat-progress-spinner {
+      margin: 0 auto;
+    }`]
 })
 export class SpinnerComponent {
 }
