@@ -1,22 +1,21 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {CommitsService} from "./github/services/commits.service";
 import {GitHubCommit} from "./github/interfaces/commit.interface";
-import {MatPaginator} from "@angular/material/paginator";
-import {tap} from "rxjs";
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit, AfterViewInit {
+export class AppComponent implements OnInit {
   isLoading = false;
   commits!: GitHubCommit[];
   branches!: string[];
   selectedBranch!: string;
+  page: number = 1;
+  per_page: number = 5;
   private owner: string = 'polnun';
   private repo: string = 'cm-history';
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(private commitsService: CommitsService) {
   }
@@ -24,7 +23,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.isLoading = true;
     this.loadBranches(this.owner, this.repo);
-    this.commitsService.getCommitHistory(this.owner, this.repo, 'main')
+    this.commitsService.getCommitHistory(this.owner, this.repo, 'main', this.page, this.per_page)
       .subscribe({
         next: (gitHubCommits) => {
           this.isLoading = false;
@@ -36,18 +35,8 @@ export class AppComponent implements OnInit, AfterViewInit {
       });
   }
 
-  ngAfterViewInit(): void {
-    this.paginator.page
-      .pipe(
-        tap(() => this.loadCommits())
-      )
-      .subscribe();
-  }
-
-  loadCommits(): void {
-    const pageIndex = this.paginator.pageIndex;
-    const pageSize = this.paginator.pageSize;
-    this.commitsService.getCommitHistory('polnun', 'cm-history', this.selectedBranch, pageIndex, pageSize)
+  loadCommits(owner: string, repo: string, branch: string, page: number, per_page: number): void {
+    this.commitsService.getCommitHistory(owner, repo, branch, page, per_page)
       .subscribe({
         next: (gitHubCommits) => {
           this.isLoading = false;
@@ -75,7 +64,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   onBranchChange(branch: string): void {
     this.isLoading = true;
-    this.commitsService.getCommitHistory('polnun', 'cm-history', branch)
+    this.commitsService.getCommitHistory('polnun', 'cm-history', branch, this.page, this.per_page)
       .subscribe({
         next: (gitHubCommits) => {
           this.isLoading = false;
@@ -89,10 +78,24 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   onRefreshClick() {
     this.isLoading = true;
-    this.loadCommits();
+    this.loadCommits(this.owner, this.repo, this.selectedBranch, this.page, this.per_page);
   }
 
-  onScroll() {
-
+  onLoadMoreClick() {
+    const scrollY = window.scrollY;
+    this.isLoading = true;
+    this.commitsService.getCommitHistory(this.owner, this.repo, this.selectedBranch, this.page + 1, this.per_page)
+      .subscribe({
+        next: (gitHubCommits) => {
+          this.isLoading = false;
+          this.commits = [...this.commits, ...gitHubCommits];
+          this.page++;
+          window.scrollTo(0, scrollY);
+        },
+        error: (err) => {
+          console.log(err);
+        }
+      });
   }
+
 }

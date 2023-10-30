@@ -1,7 +1,7 @@
 <mat-toolbar color="primary">
   <span>Visualizando commits</span>
   <span class="spacer"></span>
-  <button mat-raised-button color="accent" (click)="onRefreshClick()">
+  <button class="refresh-btn" mat-raised-button color="accent" (click)="onRefreshClick()">
     <mat-icon>refresh</mat-icon>
     <span>Refrescar</span>
   </button>
@@ -18,5 +18,16 @@
   <app-commit-card [commit]="commit"></app-commit-card>
 </div>
 
+
+<div class="load-more">
+  <button mat-raised-button color="accent" (click)="onLoadMoreClick()">
+    <mat-icon>add</mat-icon>
+    <span>Cargar más</span>
+  </button>
+</div>
+
 <app-spinner *ngIf="isLoading"></app-spinner>
 
+<button mat-fab color="accent" class="fab-refresh-btn">
+  <mat-icon>refresh</mat-icon>
+</button>
