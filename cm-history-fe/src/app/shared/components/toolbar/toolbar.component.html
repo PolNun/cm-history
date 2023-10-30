@@ -1,7 +1,8 @@
 <mat-toolbar color="primary">
-  <span>Visualizando commits</span>
+  <img [src]="owner.avatarUrl" alt="{{owner.name}}'s avatar" class="owner-avatar">
+  <h2>Commits de <a [href]="owner.url" class="owner-name">{{owner.name}}</a></h2>
   <span class="spacer"></span>
-  <button class="refresh-btn" mat-raised-button color="accent" (click)="onRefreshClick()">
+  <button mat-raised-button color="accent" (click)="onRefreshClick()">
     <mat-icon>refresh</mat-icon>
     <span>Refrescar</span>
   </button>

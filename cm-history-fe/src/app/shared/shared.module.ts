@@ -11,7 +11,8 @@ import { ToolbarComponent } from './components/toolbar/toolbar.component';
     ToolbarComponent
   ],
   exports: [
-    SpinnerComponent
+    SpinnerComponent,
+    ToolbarComponent
   ],
   imports: [
     CommonModule,

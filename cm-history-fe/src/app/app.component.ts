@@ -3,6 +3,7 @@ import {CommitsService} from "./github/services/commits.service";
 import {GitHubCommit} from "./github/interfaces/commit.interface";
 import {MatDialog} from "@angular/material/dialog";
 import {CommitDetailsDialogComponent} from "./github/components/commit-details-dialog/commit-details-dialog.component";
+import {Owner} from "./github/interfaces/owner.interface";
 
 @Component({
   selector: 'app-root',
@@ -17,7 +18,8 @@ export class AppComponent implements OnInit {
   selectedBranch!: string;
   page: number = 1;
   per_page: number = 5;
-  private owner: string = 'polnun';
+  private ownerName: string = 'polnun';
+  owner!: Owner;
   private repo: string = 'cm-history';
 
   constructor(private commitsService: CommitsService, public dialog: MatDialog) {
@@ -25,8 +27,17 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.isLoading = true;
-    this.loadBranches(this.owner, this.repo);
-    this.loadCommits(this.owner, this.repo, 'main', this.page, this.per_page);
+    this.loadBranches(this.ownerName, this.repo);
+    this.loadCommits(this.ownerName, this.repo, 'main', this.page, this.per_page);
+    this.commitsService.getOwnerDetails(this.ownerName)
+      .subscribe({
+        next: (owner) => {
+          this.owner = owner;
+        },
+        error: (err) => {
+          console.log(err);
+        }
+      });
   }
 
   loadCommits(owner: string, repo: string, branch: string, page: number, per_page: number): void {
@@ -57,19 +68,19 @@ export class AppComponent implements OnInit {
 
   onBranchChange(branch: string): void {
     this.isLoading = true;
-    this.loadCommits(this.owner, this.repo, branch, this.page, this.per_page);
+    this.loadCommits(this.ownerName, this.repo, branch, this.page, this.per_page);
   }
 
   onRefreshClick() {
     this.isLoading = true;
-    this.loadBranches(this.owner, this.repo);
-    this.loadCommits(this.owner, this.repo, this.selectedBranch, this.page, this.per_page);
+    this.loadBranches(this.ownerName, this.repo);
+    this.loadCommits(this.ownerName, this.repo, this.selectedBranch, this.page, this.per_page);
   }
 
   onLoadMoreClick() {
     const scrollY = window.scrollY;
     this.isLoading = true;
-    this.commitsService.getCommitHistory(this.owner, this.repo, this.selectedBranch, ++this.page, this.per_page)
+    this.commitsService.getCommitHistory(this.ownerName, this.repo, this.selectedBranch, ++this.page, this.per_page)
       .subscribe({
         next: (gitHubCommits) => {
           if (gitHubCommits.length === 0) {
@@ -87,7 +98,7 @@ export class AppComponent implements OnInit {
   }
 
   openDialog(commitSha: string) {
-    this.commitsService.getCommitDetails(this.owner, this.repo, commitSha)
+    this.commitsService.getCommitDetails(this.ownerName, this.repo, commitSha)
       .subscribe(commitDetail => {
         const dialogRef = this.dialog.open(CommitDetailsDialogComponent,
           {data: commitDetail});
